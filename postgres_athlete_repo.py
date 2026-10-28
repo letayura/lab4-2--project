@@ -33,9 +33,25 @@ class PostgresAthleteRepo:
                 ),
             ).fetchone()
 
+    def update(self, athlete_id: int, athlete: AthleteBase) -> dict | None:
+        with psycopg.connect(self.DSN, row_factory=dict_row) as conn:
+            return conn.execute(
+                """
+                UPDATE athletes
+                SET first_name = %s, last_name = %s, phone = %s, team_id = %s
+                WHERE id = %s
+                RETURNING *
+                """,
+                (
+                    athlete.first_name,
+                    athlete.last_name,
+                    athlete.phone,
+                    athlete.team_id,
+                    athlete_id,
+                ),
+            ).fetchone()
+
     def delete(self, athlete_id: int) -> bool:
         with psycopg.connect(self.DSN) as conn:
-            res = conn.execute(
-                "DELETE FROM athletes WHERE id=%s", (athlete_id,)
-            )
+            res = conn.execute("DELETE FROM athletes WHERE id=%s", (athlete_id,))
             return res.rowcount > 0

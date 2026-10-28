@@ -29,6 +29,16 @@ def create_athlete(athlete: AthleteBase, repo: AthleteRepository = Depends(get_r
     return repo.create(athlete)
 
 
+@app.put("/athletes/{athlete_id}")
+def update_athlete(
+    athlete_id: int, athlete: AthleteBase, repo: AthleteRepository = Depends(get_repo)
+):  # noqa: B008
+    row = repo.update(athlete_id, athlete)
+    if row is None:
+        raise HTTPException(status_code=404, detail="Not found")
+    return row
+
+
 @app.delete("/athletes/{athlete_id}")
 def delete_athlete(athlete_id: int, repo: AthleteRepository = Depends(get_repo)):  # noqa: B008
     if not repo.delete(athlete_id):
