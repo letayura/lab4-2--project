@@ -1,12 +1,5 @@
-from pydantic import BaseModel, Field
+from typing import Annotated
 
+from pydantic import Field
 
-class PhoneNumber(BaseModel):
-    value: str = Field(pattern=r"^\+380\d{9}$", description="Формат: +380XXXXXXXXX")
-
-
-class AthleteBase(BaseModel):
-    first_name: str
-    last_name: str
-    phone: str = Field(pattern=r"^\+380\d{9}$", description="Формат: +380XXXXXXXXX")
-    team_id: int
+PhoneNumber = Annotated[str, Field(pattern=r"^\+380\d{9}$")]
