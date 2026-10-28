@@ -1,0 +1,17 @@
+from typing import Protocol
+
+from athlete_model import AthleteBase
+
+
+class AthleteRepository(Protocol):
+    def get_all(self) -> list[dict]:
+        ...
+
+    def get_by_id(self, athlete_id: int) -> dict | None:
+        ...
+
+    def create(self, athlete: AthleteBase) -> dict | None:
+        ...
+
+    def delete(self, athlete_id: int) -> bool:
+        ...
