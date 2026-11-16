@@ -1,0 +1,4 @@
+files:
+  input_csv: "athletes_input.csv"
+  output_jsonl: "athletes_success.jsonl"
+  error_log: "processing_errors.log"
